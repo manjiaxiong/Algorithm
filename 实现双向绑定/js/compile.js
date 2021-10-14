@@ -8,6 +8,7 @@ function Compile(vm) {
 Compile.prototype = {
   init: function () {
     this.fragment = this.nodeFragment(this.el);
+    // console.log(this.fragment)
     this.compileNode(this.fragment);
     this.el.appendChild(this.fragment); //解析完成添加到元素中
   },

@@ -5,6 +5,7 @@ function defineReactive(data, key, value) {
   Object.defineProperty(data, key, {
     get: function () {
       if (Dep.target) {
+        console.log(Dep.target)
         dep.addSub(Dep.target);
       }
       return value;
