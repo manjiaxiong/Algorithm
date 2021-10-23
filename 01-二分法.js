@@ -1,7 +1,7 @@
 function search(arr,key) {
     var low=0,
         high=arr.length-1;      //定义一个最高点和最低点
-    while (low<=high){          //当最高点大于最低点的时候
+    while (low<=high){          //当最高点小于等于最低点的时候
         var mid=Math.floor((high+low)/2);   //挑一个中间数
         if (arr[mid]==key){return mid;}     //如果中间数等于查找的值，返回这个中间数的位置
         else if (arr[mid]<key){

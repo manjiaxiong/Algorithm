@@ -1,33 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
 </head>
+
 <body>
-    
+
 </body>
 <script>
-    /***
- *重要思路 apply这个函数是干嘛的？
-    就是改变this指向
-    首先要记得apply是函数直接执行 且第一个参数是需要改变的执行上下文 剩下的是参数数组
- */
- Function.prototype.myCall = function (context = window) {
-   if (typeof this !== 'function') { // 这时的this还是调用者
-         throw new TypeError('not funciton')
+   /***
+*重要思路 apply这个函数是干嘛的？
+   就是改变this指向
+   首先要记得apply是函数直接执行 且第一个参数是需要改变的执行上下文 剩下的是参数数组
+*/
+   const obj = {
+      name: 222,
+      getArrow() {
+         return () => {
+            console.log(this);
+         };
       }
-   context.fn = this
-   // console.log(...Array.from(arguments).slice(1))
-   let arg = Array.from(arguments).slice(1)
-   context.fn(...arg)
-   delete context.fn
-}
-function see (anme){
-   console.log(anme)
-}
-see.myCall({name:33},4,2,5)
+   }
 </script>
+
 </html>
