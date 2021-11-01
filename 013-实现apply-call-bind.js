@@ -30,14 +30,15 @@ Function.prototype.myCall = function (context = window) {
    delete context.fn
 }
 Function.prototype.mybind = function() {
+   // 校验参数是不是函数
    if (typeof this !== 'function') {
        throw new TypeError('not funciton')
    }
    var self = this; // 保存原函数
-   context = [].shift.call(arguments), // 保存需要绑定的this上下文
-       outArgs = [].slice.call(arguments); // 剩余的参数转为数组
+   context = [].shift.call(arguments), // 保存需要绑定的this上下文//取出第一个参数
+       outArgs = [].slice.call(arguments); // 剩余的参数转为数组// 取出其他参数
    return function() { // 返回一个新函数
-       let inArgs = [].slice.call(arguments);
+       let inArgs = [].slice.call(arguments); // 接收第二个()中的参数
        console.log('inArgs', inArgs)
        return self.apply(context, outArgs.concat(inArgs));
    }
