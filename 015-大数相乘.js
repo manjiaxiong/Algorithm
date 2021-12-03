@@ -7,8 +7,8 @@ let multiply = function (num1, num2) {
     // 声明容器
     let result = [];
 
-    for (let i = l1 -1; i >= 0; i--) { // 我们循环较大的数字
-        for (let j = l2 - 1; j >= 0; j--) { // 循环较小的数字
+    for (let i = l1 -1; i >= 0; i--) { // 我们循环第一个数字
+        for (let j = l2 - 1; j >= 0; j--) { // 循环第二个的数字
             let index1 = i + j; // 注意这里！ 这个当前计算的位置 这里是 c
             let index2 = i + j + 1; // 这是进位后的位置 比如 [a,b,c,d] 这里是d
             let product = num1[i] * num2[j] + (result[index2] || 0); // 我们在这里先把数字保存下来
