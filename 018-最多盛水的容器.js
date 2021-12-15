@@ -16,4 +16,19 @@
     /**
      * 方法二 双指针 建议先去了解一下什么是双指针
      */
+    let leftIndex = 0 // 通常左指针为第一个点
+    let rightIndex = height.length - 1 // 右指针为最后一个点
+    let maxArea = 0
+    while(leftIndex<=rightIndex){
+      // 首先要搞明白这个题说的是水桶原理 水桶能装多少水不是由高木板决定的 而是由短木板决定的
+      // 还有一点 移动高木板是没有意义的 因为长在缩短而高没有变（短木板没有变）
+      // 基于以上两点 我们来进行指针移动（判断左右两指针的高来进行指针移动 既移动矮板子）
+      // 首先定义 水桶的长度
+      let w = rightIndex - leftIndex // 左右指针的距离
+      let h = Math.min(height[rightIndex], height[leftIndex]) // 取短板的高
+      maxArea = Math.max(maxArea, w*h) // 用面积做比较取较大值
+      height[leftIndex] <= height[rightIndex] ? leftIndex++ : rightIndex--
+    }
+    return maxArea
    };
+   console.log(maxArea([1,8,6,2,5,4,8,3,7]))
