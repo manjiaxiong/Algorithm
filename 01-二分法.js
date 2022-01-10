@@ -1,3 +1,10 @@
+/**
+ * 
+ * 什么是二分法  二分法就是取中点然后比较根据taiget与中点值比较来移动letft or right 位置
+ * @param {*} arr 
+ * @param {*} key 
+ * @returns 
+ */
 function search(arr,key) {
     var low=0,
         high=arr.length-1;      //定义一个最高点和最低点
