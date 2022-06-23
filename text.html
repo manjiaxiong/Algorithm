@@ -1,30 +1,55 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<!doctype html>
+<html>
 <head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Document</title>
+    <title>全屏显示</title>
+    <meta charset="utf-8" />
+    <style>
+        
+        div {
+           width: 200px;
+           height:200px;
+           background:pink;
+           margin:100px auto;
+        }
+        button {
+            margin-left: 650px;
+        }
+        h1 {
+            margin-left: 400px;
+        }
+    </style>
 </head>
-
 <body>
-
+    <h1>js控制页面的全屏展示和退出全屏显示</h1>  
+    <div id="div1"></div>
+    <button type="button" id="btn">全屏</button>
+     
 </body>
-<script>
-   /***
-*重要思路 apply这个函数是干嘛的？
-   就是改变this指向
-   首先要记得apply是函数直接执行 且第一个参数是需要改变的执行上下文 剩下的是参数数组
-*/
-   const obj = {
-      name: 222,
-      getArrow() {
-         return () => {
-            console.log(this);
-         };
-      }
-   }
-</script>
-
+ 
 </html>
+<script type="text/javascript">
+   window.onload =function(){
+        document.getElementById("btn").onclick = function(){
+          var elem =document.getElementById("div1");
+          requestFullScreen(elem);
+           
+        }
+        var requestFullScreen=function(element) {
+           //某个元素有请求    
+         var requestMethod =element.requestFullScreen
+         ||element.webkitRequestFullScreen //谷歌
+         ||element.mozRequestFullScreen  //火狐
+         ||element.msRequestFullScreen; //IE11
+        if (requestMethod) {     
+         requestMethod.call(element);   //执行这个请求的方法
+     } else if (typeof window.ActiveXObject !== "undefined") {  
+     //window.ActiveXObject判断是否支持ActiveX控件    
+          //这里其实就是模拟了按下键盘的F11，使浏览器全屏
+           var wscript = new ActiveXObject("WScript.Shell"); //创建ActiveX  
+         if (wscript !== null) {    //创建成功
+             wscript.SendKeys("{F11}");//触发f11   
+         }   
+     }   
+        }
+}
+</script>

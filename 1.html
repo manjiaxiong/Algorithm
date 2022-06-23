@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .warpper{
+    width: 43px;
+    height: 24px;
+    background: rgb(40, 44, 52);
+    }
+</style>
+<body>
+    <div id="wp" class="warpper">
+	    <button id="screenBtn" class="btn" onclick="handleFullScreen()">全屏</button>
+    </div>
+</body>
+<script>
+    	let fullscreen = false
+	// 全屏事件
+	function handleFullScreen() {
+		let element = document.documentElement
+		const wp = document.getElementById('wp')
+		const screenDom = document.getElementById('screenBtn')
+		if (fullscreen) { // 退出全屏
+			if (document.exitFullscreen) { // W3C标准
+				document.exitFullscreen()
+			} else if (document.webkitCancelFullScreen) { // Chrome
+				document.webkitCancelFullScreen()
+			} else if (document.mozCancelFullScreen) { // firefox
+				document.mozCancelFullScreen()
+			} else if (document.msExitFullscreen) { // IE 
+				document.msExitFullscreen()
+			} else {
+				alert('当前浏览器不支持全屏显示！')
+			}
+			wp.style.width = '43px'
+			wp.style.height = '24px'
+			screenDom.innerHTML = '全屏'
+		} else { // 全屏 
+			if (element.requestFullscreen) {
+				element.requestFullscreen()
+			} else if (element.webkitRequestFullScreen) {
+				element.webkitRequestFullScreen()
+			} else if (element.mozRequestFullScreen) {
+				element.mozRequestFullScreen()
+			} else if (element.msRequestFullscreen) {
+				element.msRequestFullscreen()
+			} else {
+				alert('当前浏览器不支持全屏显示！')
+			}
+			wp.style.width = '100vw'
+			wp.style.height = '100vh'
+			screenDom.innerHTML = '退出全屏'
+		}
+		fullscreen = !fullscreen
+	}
+</script>
+</html>
