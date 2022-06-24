@@ -4,6 +4,13 @@ function effect(fn) {
     activeEffect = fn
     fn()
 }
+const data = {
+    text: 1,
+    p: 0
+}
+effect(() => {
+    console.log('触发')
+})
 const obj = new Proxy(data, {
     get (target, key) {
         if(!activeEffect) return target[key]
@@ -19,6 +26,7 @@ const obj = new Proxy(data, {
             depsMap.set(key, (deps = new Set()))
         }
         deps.add(activeEffect) // 将副作用函数塞进deps 注意这里deps是Set类型 已经自动去重副作用函数
+        console.log(depsMap, deps)
         return target[key]
     },
     set (target, key, newVal) {
@@ -31,3 +39,4 @@ const obj = new Proxy(data, {
         effect && effect.forEach(fn => fn());
     }
 })
+console.log(obj.text)

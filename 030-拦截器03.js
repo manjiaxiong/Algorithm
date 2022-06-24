@@ -1,34 +1,4 @@
-<!doctype html>
-<html>
-<head>
-    <title>全屏显示</title>
-    <meta charset="utf-8" />
-    <style>
-        
-        div {
-           width: 200px;
-           height:200px;
-           background:pink;
-           margin:100px auto;
-        }
-        button {
-            margin-left: 650px;
-        }
-        h1 {
-            margin-left: 400px;
-        }
-    </style>
-</head>
-<body>
-    <h1>js控制页面的全屏展示和退出全屏显示</h1>  
-    <div id="div1"></div>
-    <button type="button" id="btn">全屏</button>
-     
-</body>
- 
-</html>
-<script type="text/javascript">
-    const data = {ok: true, text: 'heee'}
+const data = {ok: true, text: 'heee'}
 let activeEffect
 const bucket = new WeakMap() // 储存副作用函数的‘桶’
 const obj = new Proxy(data, {
@@ -42,18 +12,6 @@ const obj = new Proxy(data, {
         trigger(target, key)
     }
 })
-
-effect(() => {
-    console.log('触发')
-    const b = obj.ok ? obj.text : 'ppp'
-})
-obj.ok = false
-// effect(() => {
-//     console.log('触发')
-//     // const b = obj.ok ? obj.text : 'ppp'
-//     obj.ok = false
-//     console.log(obj)
-// })
 function effect(fn) {
     const effectFn = () => {
         // 调用cleanup清除工作
@@ -102,4 +60,15 @@ function trigger (target, key) {
         fn()
     });
 }
-</script>
+let temp2,temp1
+effect(function effectFn1() {
+    console.log('1执行')
+    effect(function effectFn2() {
+        console.log('2执行')
+        temp2 = obj.text
+    })
+    temp1 = obj.ok
+})
+effect(() => {
+    obj.ok = false
+})
