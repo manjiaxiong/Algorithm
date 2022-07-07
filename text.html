@@ -28,7 +28,7 @@
  
 </html>
 <script type="text/javascript">
-    const data = {ok: true, text: 'heee'}
+const data = {ok: true, text: 'heee'}
 let activeEffect
 const bucket = new WeakMap() // 储存副作用函数的‘桶’
 const obj = new Proxy(data, {
@@ -47,13 +47,14 @@ effect(() => {
     console.log('触发')
     const b = obj.ok ? obj.text : 'ppp'
 })
-obj.ok = false
-// effect(() => {
-//     console.log('触发')
-//     // const b = obj.ok ? obj.text : 'ppp'
-//     obj.ok = false
-//     console.log(obj)
-// })
+setTimeout(()=>{
+    effect(() => {
+        console.log('触发1')
+        obj.ok = false
+    })
+},300)
+
+// obj.ok = false
 function effect(fn) {
     const effectFn = () => {
         // 调用cleanup清除工作
@@ -67,6 +68,7 @@ function effect(fn) {
 }
 function cleanup(effectFn) {
     // 遍历effectFn.dps数据
+    // console.log(effectFn.deps, 'effectFn')
     for (let i =0; i<effectFn.deps.length; i++){
         const deps = effectFn.deps[i]
         deps.delete(effectFn)
@@ -96,6 +98,7 @@ function trigger (target, key) {
     const depsMap = bucket.get(target)
     if (!depsMap) return // 如果没有与桶关联的target 直接退出
     const effects = depsMap.get(key)
+    // console.log(depsMap.get('text'), 'fnnn')
     const effectsToRun = new Set(effects)
     // console.log(effectsToRun)
     effectsToRun.forEach(fn => {

@@ -69,6 +69,7 @@ function trigger (target, key) {
     const depsMap = bucket.get(target)
     if (!depsMap) return // 如果没有与桶关联的target 直接退出
     const effects = depsMap.get(key)
+    console.log(depsMap.get('text').deps, 'fnnn')
     const effectsToRun = new Set(effects)
     // console.log(effectsToRun)
     effectsToRun.forEach(fn => {

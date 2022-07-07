@@ -1,6 +1,7 @@
 const data = {ok: true, text: 'heee'}
 let activeEffect
 const bucket = new WeakMap() // 储存副作用函数的‘桶’
+const 
 const obj = new Proxy(data, {
     get (target, key) {
         track(target, key)
@@ -12,16 +13,25 @@ const obj = new Proxy(data, {
         trigger(target, key)
     }
 })
+// effect 栈
+const effectStack = []
+
 function effect(fn) {
-    const effectFn = () => {
-        // 调用cleanup清除工作
-        cleanup(effectFn)
-        activeEffect = effectFn
-        fn()
-    }
-    // 用来储存所有与该副作用函数相关联的依赖
-    effectFn.deps = []
-    effectFn()
+  const effectFn = () => {
+    cleanup(effectFn)
+    // 当调用 effect 注册副作用函数时，将副作用函数复制给 activeEffect
+    activeEffect = effectFn
+    // 在调用副作用函数之前将当前副作用函数压栈
+    effectStack.push(effectFn)
+    fn()
+    // 在当前副作用函数执行完毕后，将当前副作用函数弹出栈，并还原 activeEffect 为之前的值
+    effectStack.pop()
+    activeEffect = effectStack[effectStack.length - 1]
+  }
+  // activeEffect.deps 用来存储所有与该副作用函数相关的依赖集合
+  effectFn.deps = []
+  // 执行副作用函数
+  effectFn()
 }
 function cleanup(effectFn) {
     // 遍历effectFn.dps数据
